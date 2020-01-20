@@ -2,8 +2,24 @@ import React, { Component } from 'react'
 import NotFound from './NotFound';
 import ProductItemContainer from '../container/ProductItem.Container';
 import OwlCarousel from 'react-owl-carousel';
+// import Pagination from "react-js-pagination";
+import Pagination from "react-pagination-library";
+import "react-pagination-library/build/css/index.css";
 
 class ProductList extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+        activePage: 1
+    }
+  }
+  
+  componentDidUpdate ( prevProps)  {
+    if(this.props.total_page !== prevProps.total_page){
+      this.setState({activePage: 1})
+    }
+    
+}
 
     showProductItem = (data) => {
       if (data) {
@@ -11,18 +27,25 @@ class ProductList extends Component {
           return (<ProductItemContainer setAlert={(e)=> this.props.setAlert(e)} showProductDetail={this.props.showProductDetail} addToCart={this.props.addToCart} key={key} data={value}></ProductItemContainer>)
         })
       }
-      else{
-        return(<NotFound></NotFound>)
-      }
+      
   }
+  
     componentDidMount() {
       window.scrollTo(0, 0);
-      this.props.getProductList()
+      this.props.getProductList();
   }
+  
   searchHint =(text) => {
     this.props.getSearchData(text)
   }
- 
+  
+  a =(e) => {
+    this.props.getProductList2(e,this.props.searchText)
+    console.log(e)
+    this.setState({
+      activePage : e
+    })
+  }
   
     render() {
       
@@ -39,10 +62,11 @@ class ProductList extends Component {
       items = {1}
       autoplayTimeout={2000}    
   >
-      <div class="item"><img src="https://cdn.tgdd.vn/2020/01/banner/800-300-800x300-1.gif" alt=""></img></div>
-      <div class="item"><img src="https://cdn.cellphones.com.vn/media/ltsoft/promotion/T_T-iPHONE-7-PLUS---1600x600.png" alt=""></img></div>
-      <div class="item"><img src="https://cdn.cellphones.com.vn/media/ltsoft/promotion/T_T-LAPTOP---1600x600.png" alt=""></img></div>
-      <div class="item"><img src="https://cdn.tgdd.vn/2020/01/banner/800-300-800x300-1.gif" alt=""></img></div>
+      <div class="item"><img src="./asset/slideshow1.gif" alt=""></img></div>
+      <div class="item"><img src="./asset/slideshow2.webp" alt=""></img></div>
+      <div class="item"><img src="./asset/slideshow3.webp" alt=""></img></div>
+      <div class="item"><img src="./asset/slideshow1.gif" alt=""></img></div>
+      
 
     
   </OwlCarousel>
@@ -118,9 +142,20 @@ class ProductList extends Component {
         
       </div>
     </div>
+    
   </div>
+  <Pagination
+          currentPage={this.state.activePage}
+          changeCurrentPage={(a)=>this.a(a)}
+          totalPages={this.props.total_page}
+          theme="square-i"
+
+
+        />
+  
   
 </div>
+
 
         )
     }

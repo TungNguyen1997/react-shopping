@@ -18,7 +18,7 @@ export default class Cart extends Component {
         var dataCartItem = this.props.dataCartItem;
         var result = 0;
         for (let i = 0; i < dataCartItem.length; i++) {
-            result += dataCartItem[i].final_price * dataCartItem[i].quantity;
+            result += dataCartItem[i].final_price * dataCartItem[i].quantityProduct;
         }
         return formatPrice(result);
       }

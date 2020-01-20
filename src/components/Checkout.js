@@ -3,15 +3,7 @@ import CheckoutItem from './CheckoutItem';
 import formatPrice from './convertMoney';
 
 class Checkout extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-          searchText:'',
-          totalPrice:this.totalPrice(),
-          textDiscount :'',
-          checkBtn:false
-        }
-      }
+    
       componentDidMount() {
         window.scrollTo(0, 0);
       }
@@ -20,39 +12,7 @@ class Checkout extends Component {
             return(<CheckoutItem key={key} value={value}></CheckoutItem>)
         })
     }
-    isChange = (e) => {
-        this.setState({
-            searchText:e.target.value
-        })
-    }
-    checkDiscount = () => {
-        var result = this.state.totalPrice;
-         result = result.replace(/,/g, '');
-         console.log(result)
-        result = formatPrice(parseInt(result)/2);
-         
-        if(this.state.searchText === 'HappyDay') 
-        {
-            this.setState({
-                totalPrice:result,
-                checkBtn:true,
-                textDiscount:'ĐƠN HÀNG CỦA BẠN ĐÃ ĐC GIẢM 50% ♥'
-            })
-        }
-        else{
-            this.setState({
-                textDiscount:'Mã giảm giá ko hợp lệ'
-            })
-        }
-    }
-    totalPrice = () => {
-        var data = this.props.dataCartItem;
-        var result = 0;
-        for (let i = 0; i < data.length; i++) {
-           result += data[i].final_price * data[i].quantity;
-        }
-        return  formatPrice(result);
-    }
+    
     render() {
         var product= this.props.dataCartItem
         return (
@@ -192,24 +152,15 @@ class Checkout extends Component {
                  {this.showProductItem(product)}
                  <li className="list-group-item d-flex justify-content-between">
                      <span>Tổng tiền (VND)</span>
-                    <strong>{this.state.totalPrice}đ</strong>
+                    <strong>{this.props.final_price}đ</strong>
                 </li> 
 
-                {this.state.textDiscount !== '' ?  <li className="list-group-item d-flex justify-content-between" style={{color:'red',fontWeight:'700',textTransform:'uppercase'}}>
-                     {this.state.textDiscount}
-                </li> : ''}
+               
                
                 </ul>
                   {/* Cart */}
                   {/* Promo code */}
-                  <form className="card p-2">
-                    <div className="input-group">
-                      <input type="text" onChange={(e) => this.isChange(e)}className="form-control" placeholder="Nhập mã giảm giá ... " aria-label="Recipient's username" aria-describedby="basic-addon2" />
-                      <div className="input-group-append">
-                        <button className="btn btn-danger" disabled={product.length > 0 ? this.state.checkBtn : true} onClick={() => this.checkDiscount()}type="button">ÁP DỤNG</button>
-                      </div>
-                    </div>
-                  </form>
+                  
                   {/* Promo code */}
                 </div>
                 {/*Grid column*/}

@@ -2,9 +2,10 @@ import React, { Component } from 'react'
 import Comments from './Comments';
 import OwlCarousel from 'react-owl-carousel2';
 import formatPrice from './convertMoney';
-import ProductRelatedContainer from '../container/ProductRelated.Container';
+import StarRatings from 'react-star-ratings';
 import update from 'immutability-helper';
-
+import {Link} from 'react-router-dom'
+import ProductRelatedContainer from '../container/ProductRelated.Container';
 export default class ShopDetail extends Component {
 
   constructor(props) {
@@ -16,25 +17,42 @@ export default class ShopDetail extends Component {
       alert:false
     }
   }
+  componentDidUpdate ( prevProps)  {
+    if(this.props.dataRedux.id !== prevProps.dataRedux.id){
+      window.scrollTo(0, 0);
+    }
+    
+}
+
   componentDidMount() {
     window.scrollTo(0, 0);
-   this.props.getShopDetailList(this.props.props.match.params.id);
-   var arrayRelated = this.props.dataRedux.product_relateds;
-   var array = arrayRelated?.split(",");
-    console.log('====================================');
-    console.log(arrayRelated);
-    console.log('====================================');
-   if(array) {
-      array.map((value,key) => {
-        this.props.getProductRelatedList(value)
+    // if(this.props.productId === '')
+    // { 
+      this.props.testData(this.props.props.match.params.id);
 
-      })
-  }
+    // }
+    // else{
+    //   this.props.getShopDetailList(this.props.productId);
+
+    // }
+    
+   
+ 
 
   
 }
-componentDidUpdate() {
- 
+
+shouldComponentUpdate(nextProps, nextState){
+    if (this.props.dataRelated.length === 4 || this.props.dataCartItem !== nextProps.dataCartItem || this.props.dataRedux !== nextProps.dataRedux || this.state.att1 !== nextState.att1 || this.state.att2 !== nextState.att2 || this.state.numberItem !== nextState.numberItem) {
+      return true;
+    }
+    return false;
+}
+
+
+
+componentWillUnmount () {
+  this.props.resetData()
 }
 
 
@@ -45,12 +63,17 @@ a.name ? this.setState({
 
   
 }
-// https://media3.scdn.vn/${value}
 mapImage = (product) => {
-  return product.images?.map((value,key) => {
-  return (< img src={`https://media3.scdn.vn/${value}` } alt="" key={key}></img>
-    )
-  })
+  if(product.images){
+    return product.images?.map((value,key) => {
+      return (< img src={`https://media3.scdn.vn/${value}` } alt="" key={key}></img>
+        )
+      })
+  }
+  else{
+    return (< img src={`` } alt="" ></img>)
+  }
+ 
 }
 
 
@@ -85,7 +108,7 @@ addItem =(product,quantity) => {
         })
     }
     else if(index2 === -1) {
-      product.quantity = quantity ;
+      product.quantityProduct = quantity ;
       product.att1 = this.state.att1;
       product.att2 = this.state.att2;
       
@@ -98,10 +121,10 @@ addItem =(product,quantity) => {
     else {
      
       if(index !== -1 ){
-      data[index].quantity = data[index].quantity + quantity ;
+      data[index].quantityProduct = data[index].quantityProduct + quantity ;
     }
     else if(index === -1){
-      const deepClone = update(product,{quantity:{$set:quantity},att1:{$set:this.state.att1},att2:{$set:this.state.att2}});
+      const deepClone = update(product,{quantityProduct:{$set:quantity},att1:{$set:this.state.att1},att2:{$set:this.state.att2}});
       data.push(deepClone)
 
       this.setState({
@@ -117,7 +140,7 @@ addItem =(product,quantity) => {
     
     }
     else if(index2 === -1) {
-      product.quantity = quantity ;
+      product.quantityProduct = quantity ;
       product.att1 = this.state.att1;
       product.att2 = this.state.att2;
       data.push(product);
@@ -126,10 +149,10 @@ addItem =(product,quantity) => {
     
 
       if(index !== -1 ){
-        data[index].quantity = data[index].quantity + quantity ;
+        data[index].quantityProduct = data[index].quantityProduct + quantity ;
       }
       else if(index === -1){
-        const deepClone = update(product,{quantity:{$set:quantity},att1:{$set:this.state.att1},att2:{$set:this.state.att2}});
+        const deepClone = update(product,{quantityProduct:{$set:quantity},att1:{$set:this.state.att1},att2:{$set:this.state.att2}});
         data.push(deepClone)
   
         this.setState({
@@ -157,11 +180,19 @@ showComment =(product) => {
 
 
 showProductDetail = (data) => {
-  data.map((value,key) => {
-    return(<ProductRelatedContainer key={key} value ={value}> </ProductRelatedContainer>)
-  })
-}
+  
 
+  if(data){
+    return data.map((value,key) => {
+      
+      return(<ProductRelatedContainer key={key} value ={value}> </ProductRelatedContainer>)
+      
+    })
+  }
+  
+  
+ 
+}
 
 showAttr=  (product) => {
   return product.attribute?.map((value,key) => {  
@@ -178,12 +209,13 @@ showAttr=  (product) => {
 
     render() {
     
-      
+      console.log(this.props.productId)
       const options = {
         items: 1,
         autoplay:true
        
     };
+   
      
       var product = this.props.dataRedux;
 
@@ -201,7 +233,9 @@ showAttr=  (product) => {
       <h1>{product.shop_info?.shop_name}</h1>
           <ul className="breadcrumb-menu">
             <li><a href="index.html">home</a></li>
-            <li><span>shop details</span></li>
+            <li><Link to='/shop-info'>shop details</Link></li>
+
+          
           </ul>
         </div>
       </div>
@@ -219,7 +253,23 @@ showAttr=  (product) => {
           
                {this.mapImage(product)}
         </OwlCarousel> 
-  
+        <div className="row mt-5">
+        <div className="col-xl-4">
+        <img style={{borderRadius:'50%'}} src={product.shop_info?.shop_logo} height="170px" alt=""></img>
+
+        </div>
+
+        <div className="col-xl-6 align-self-center align-items-xl-center">
+          <p className="shop-info-text">Thông tin shop</p>
+          <p>{product.shop_info?.shop_name}</p>
+      <p> <b>Phản hồi tốt</b> : {product.shop_info?.good_review_percent}%</p>
+      <p>  <b>Tổng điểm </b> : {product.shop_info?.score}</p>
+      <p>  <b>Số điện thoại</b> : {product.shop_info?.phone_number}</p>
+
+
+        </div>
+        </div>
+         
 
        
         <div className="shop-thumb-tab mb-30">
@@ -243,6 +293,13 @@ showAttr=  (product) => {
            
           </div>
           <h2 className="pro-details-title mb-15">{product.name}</h2>
+          <StarRatings
+          rating={product.rating_info?.rate_percent}
+          starRatedColor="red"
+          numberOfStars={5}
+          name='rating'
+          starDimension="20px"
+        />
           <div className="details-price mb-20">
       <span>{product.final_price? formatPrice(product.final_price): product.final_price}đ</span>
             <span className="old-price">{product.price}đ</span>
@@ -255,14 +312,20 @@ showAttr=  (product) => {
               <ul>
                 <li><span><b>Brands</b>:</span> Hewlett-Packard</li>
               {this.showAttr(product)}
-      <li><span><b>Tình trạng</b></span> <span className="in-stock">còn {product.quantity} sản phẩm </span></li>
         <li className="text-alert">{this.state.alert ? 'MỜI NHẬP ĐẦY ĐỦ THÔNG TIN ' : ''}</li>
 
-     
+          
 
 
               </ul>
             </div>
+            <div dangerouslySetInnerHTML={{ __html: product.refund_info?.tooltip }} />
+            <div dangerouslySetInnerHTML={{ __html: product.return_exchange_free?.tooltip }} />
+            <span><img src={product.campaign_list?.icon} alt=""></img></span>
+
+            <div dangerouslySetInnerHTML={{ __html: product.campaign_list?.description }} />
+
+     
             <div className="product-action-details variant-item">
               <div className="product-details-action">
                 <form action="#">
@@ -272,6 +335,8 @@ showAttr=  (product) => {
                   <button className="details-action-icon" type="submit"><i className="fas fa-heart" /></button>
                   <div className="details-cart mt-40">
                     <p className="btn theme-btn" onClick ={(a,b) => this.addItem(product,this.state.numberItem)}>purchase now</p>
+                    <span className="ml-3"><b>{product.quantity} sản phẩm có sẵn</b></span> <span className="in-stock">  </span>
+
                   </div>
                 </form>
               </div>
@@ -280,15 +345,34 @@ showAttr=  (product) => {
         </div>
       </div>
     </div>
+    <section className="product-area pb-100"> 
+  <div className="container">
+    <div className="row">
+      <div className="col-xl-12">
+        <div className="area-title text-center mb-50">
+          <h2>Có thể bạn quan tâm ♥</h2>
+        </div>
+      </div>
+    </div>
+    <div className="product-slider-2 ">
+         {this.showProductDetail(product.product_relateds)}
+            
+      
+      </div>
+    
+    
+    </div>
+  
+</section>
     <div className="row mt-50">
       <div className="col-xl-8 col-lg-8">
         <div className="product-review">
           <ul className="nav review-tab" id="myTabproduct" role="tablist">
             <li className="nav-item">
-              <a className="nav-link active" id="home-tab6" data-toggle="tab" href="#home6" role="tab" aria-controls="home" aria-selected="true">Description </a>
+              <a className="nav-link active" id="home-tab6" data-toggle="tab" href="#home6" role="tab" aria-controls="home" aria-selected="true">Thông tin chi tiết </a>
             </li>
             <li className="nav-item">
-      <a className="nav-link" id="profile-tab6" data-toggle="tab" href="#profile6" role="tab" aria-controls="profile" aria-selected="false">Reviews ({product.comments?.data?.length >= 1 ? product.comments?.data?.length : 0})</a>
+      <a className="nav-link" id="profile-tab6" data-toggle="tab" href="#profile6" role="tab" aria-controls="profile" aria-selected="false">Đánh giá ({product.comments?.data?.length >= 1 ? product.comments?.data?.length : 0})</a>
             </li>
           </ul>
           <div className="tab-content" id="myTabContent2">
@@ -358,26 +442,7 @@ showAttr=  (product) => {
   </div>
 </section>
 
-<section className="product-area pb-100"> 
-  <div className="container">
-    <div className="row">
-      <div className="col-xl-12">
-        <div className="area-title text-center mb-50">
-          <h2>Releted Products</h2>
-          <p>Browse the huge variety of our products</p>
-        </div>
-      </div>
-    </div>
-    <div className="product-slider-2 ">
 
-<ProductRelatedContainer></ProductRelatedContainer>
-      
-      </div>
-    
-    
-    </div>
-  
-</section>
 </main>
 
       )  

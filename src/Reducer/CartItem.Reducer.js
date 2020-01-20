@@ -26,7 +26,7 @@ var initialState={
          case PLUS_ITEM:
             var key =action.key;
             var temp =[...state.dataCartItem]
-            temp[key].quantity ++;
+            temp[key].quantityProduct ++;
              return{
                 ...state,
                 dataCartItem:temp
@@ -35,10 +35,10 @@ var initialState={
             var key =action.key;
             var temp1 =[...state.dataCartItem]
           
-            if(temp1[key].quantity  >= 1) {
-               temp1[key].quantity --;
+            if(temp1[key].quantityProduct  >= 1) {
+               temp1[key].quantityProduct --;
             }
-            else if(temp1[key].quantity === 0) {
+            else if(temp1[key].quantityProduct === 0) {
                
             }
             

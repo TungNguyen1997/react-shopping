@@ -12,7 +12,7 @@ import formatPrice from './convertMoney';
             <li>
                     <div className="cart-img">
                       <a href="#dsd">
-                        <img src={ this.props.data.images[0] ? `https://media3.scdn.vn${this.props.data.images[0]}` : `https://media3.scdn.vn${this.props.data.images[0]}`}  alt="" />
+                        <img src={ this.props.data.images[0] ? `https://media3.scdn.vn${this.props.data.images[0]}` : ''}  alt="" />
                       </a>
                       <div className="cart-img-price">
                       <div className="new"> {formatPrice(this.props.data.final_price)}đ</div>
@@ -32,7 +32,7 @@ import formatPrice from './convertMoney';
                         </span>
                         
                         <span className="ml-2 float-right">
-                            X{this.props.data.quantity} 
+                            X{this.props.data.quantityProduct} 
                         </span>
                         
                       </div>

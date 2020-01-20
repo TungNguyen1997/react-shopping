@@ -15,6 +15,7 @@ import Login from './components/Login';
 import LoadingContainer from './container/Loading.Container';
 import CheckoutContainer from './container/Checkout.Container';
 import CheckOutSuccess from './components/CheckOutSuccess';
+import ShopInfo from './components/ShopInfo';
 
 
 
@@ -68,6 +69,11 @@ export default class App extends Component {
      <ShopDetailContainer props={props}    ></ShopDetailContainer>
        
           } />
+          <Route exact path="/shop-info" render={props =>
+   
+            <ShopInfo></ShopInfo>
+     
+        } />
             <Route exact path="/checkoutsuccess" render={props =>
         <CheckOutSuccess></CheckOutSuccess>
       

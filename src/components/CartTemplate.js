@@ -2,13 +2,14 @@ import React, { Component } from 'react'
 import { Link  } from 'react-router-dom';
 import formatPrice from './convertMoney';
 import { listDiscount } from '../constant/DiscountCode';
+import Checkout from './Checkout';
 
 export default class CartTemplate extends Component {
   constructor(props) {
     super(props);
     this.state = {
       discountText:'',
-      confirmDiscount:false,
+      
       
   }
 }
@@ -17,7 +18,7 @@ export default class CartTemplate extends Component {
     var result = 0;
     var data = [...this.props.dataCartItem]
     for (let i = 0; i < data.length; i++) {
-      result += data[i].quantity * data[i].final_price
+      result += data[i].quantityProduct * data[i].final_price
   }
 
   listDiscount.map ((value,key) => {
@@ -25,6 +26,7 @@ export default class CartTemplate extends Component {
       result = result - (result * value.discount)
     }
   })
+  this.props.sendTotalPrice(result)
   return formatPrice(result)
 
 
@@ -53,10 +55,10 @@ export default class CartTemplate extends Component {
             <td className="product-name"><a href="#dsds">{data.name}</a></td>
             <td className="product-price"><span className="amount">{formatPrice(data.final_price)}đ</span></td>
             <td className="product-quantity">
-              <div className="cart-plus-minus"><input id="text data" type="text" value={data.quantity}   /><div className="dec qtybutton" onClick={(item) => this.minusItem(key)}>-</div><div className="inc qtybutton" onClick={(item) => this.plusItem(key)}>+</div></div>
+              <div className="cart-plus-minus"><input id="text data" type="text" value={data.quantityProduct}   /><div className="dec qtybutton" onClick={(item) => this.minusItem(key)}>-</div><div className="inc qtybutton" onClick={(item) => this.plusItem(key)}>+</div></div>
             </td>
             <td className="product-subtotal"><span className="amount">{data.att1},{data.att2}</span></td>
-            <td className="product-subtotal"><span className="amount">{formatPrice(data.quantity * data.final_price)}đ</span></td>
+            <td className="product-subtotal"><span className="amount">{formatPrice(data.quantityProduct * data.final_price)}đ</span></td>
             <td className="product-remove"><a href="#ds" onClick={() => this.deleteItem(key)}><i className="fa fa-times" /></a></td>
           </tr></React.Fragment>)
     })
@@ -84,9 +86,7 @@ export default class CartTemplate extends Component {
     this.props.minusItem(item)
   }
   render() {
-    console.log('====================================');
-    console.log("ĐÃ RENDER");
-    console.log('====================================');
+    
     return (
       <main>
         {/* breadcrumb-area-start */}

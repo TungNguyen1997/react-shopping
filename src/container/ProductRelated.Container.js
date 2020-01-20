@@ -1,6 +1,8 @@
 import { connect } from "react-redux"
 import ProductRelated from "../components/ProductRelated"
 import {getProductRelatedList} from './../action/Related.action'
+import {getProductId} from './../action/ProductItem.action'
+import {getShopDetailList,testData} from './../action/ShopDetail.action'
 
 
  const mapStateToProps = (store) => ({
@@ -9,7 +11,11 @@ import {getProductRelatedList} from './../action/Related.action'
  })
  
  const mapDispatchToProps = {
-    getProductRelatedList
+    getProductRelatedList,
+    getProductId,
+    getShopDetailList,
+    testData
+    
  }
 
 export default connect(mapStateToProps,mapDispatchToProps)(ProductRelated)

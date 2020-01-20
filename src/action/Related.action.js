@@ -5,12 +5,20 @@ import Login from '../components/Login';
 
 export const  GET_PRODUCTRELATED_SUCCESS='GET_PRODUCTRELATED_SUCCES';
 export const  GET_PRODUCTRELATED_FAIL='GET_PRODUCTRELATED_FAIL';
+export const  RESET_DATA='RESET_DATA';
 
 
 export const getShopDetailSuccess = (data) => {
     return{
         type : GET_PRODUCTRELATED_SUCCESS,
         data
+    }
+}
+
+export const resetData = (data) => {
+    return{
+        type :RESET_DATA,
+        
     }
 }
 

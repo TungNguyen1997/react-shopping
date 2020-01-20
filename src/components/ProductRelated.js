@@ -1,15 +1,22 @@
 import React, { Component } from 'react'
+import formatPrice from './convertMoney';
+import { Link } from 'react-router-dom';
+
 
 class ProductRelated extends Component {
-    
-  mapProductRelated = (data) => {
-    return data?.map((value,key) => {
-      return(  <div className="pro-item" key={key}>
+  sendId = (id) => {
+    this.props.testData(id)
+  }
+ 
+    render() {
+   
+      if(this.props.value) {
+        return (
+          <Link to={`/product-detail/${this.props.value.id}`} className="pro-item" onClick={(id)=>this.sendId(this.props.value.id)}>
       <div className="product-wrapper">
-        <div className="product-img mb-25">
+        <div className="product-imgg mb-25">
           <a href="product-details.html">
-            <img src="img/product/pro4.jpg" alt="" />
-            <img className="secondary-img" src="img/product/pro5.jpg" alt="" />
+          <img  src={this.props.value.images? `https://media3.scdn.vn/${this.props.value.images[0]}` : 'https://media3.scdn.vn/'} alt="" />
           </a>
           <div className="product-action text-center">
             <a href="#ds" title="Shoppingb Cart">
@@ -25,33 +32,28 @@ class ProductRelated extends Component {
         </div>
         <div className="product-content">
           <div className="pro-cat mb-10">
-            <a href="shop.html">decor, </a>
-            <a href="shop.html">{value}</a>
+            <a href="shop.html">{this.props.value.name}</a>
           </div>
           <h4>
       <a href="product-details.html"></a>
           </h4>
           <div className="product-meta">
             <div className="pro-price">
-              <span>$119.00 USD</span>
-              <span className="old-price">$230.00 USD</span>
+              <span>{this.props.value.final_price && formatPrice(this.props.value.final_price)}đ</span>
+              <span className="old-price">{this.props.value.price && formatPrice(this.props.value.price)}đ</span>
             </div>
           </div>
-          <div className="product-wishlist">
-            <a href="#ds"><i className="far fa-heart" title="Wishlist" /></a>
-          </div>
+          
         </div>
       </div>
-    </div>)
-    })
-  }
-    render() {
-      var a = ["dsadsa","dasdads","dsadsadsa"]
-      console.log(this.props.dataRedux)
-        return (
-          <div> {this.mapProductRelated(a)}</div>
+    </Link>
          
         )
+      }
+      else{
+        return (<div></div>)
+      }
+      
     }
 }
 export default ProductRelated;

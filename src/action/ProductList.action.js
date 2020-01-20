@@ -19,10 +19,11 @@ export const getSortDataRequest = (data) => {
     }
 }
 
-export const getSearchDataRequest = (data) => {
+export const getSearchDataRequest = (data,text) => {
     return{
         type : GET_SEARCH_REQUEST,
-        data
+        data,
+        text
         
     }
 }
@@ -30,7 +31,8 @@ export const getSearchDataRequest = (data) => {
 export const getProductListSuccess = (data) => {
     return{
         type : GET_PRODUCTLIST_SUCCESS,
-        data
+        data,
+        
     }
 }
 
@@ -59,7 +61,7 @@ export const getSearchData = (text) => {
               }
             
           )
-          dispatch(getSearchDataRequest(result.data.data))
+          dispatch(getSearchDataRequest(result.data,`${text}`))
     }
     catch(error)
     {
@@ -71,6 +73,7 @@ export const getSearchData = (text) => {
 }
 
 export const getProductList = () => {
+
     return async (dispatch)=>
     {
         dispatch(getProductListRequest());
@@ -78,17 +81,40 @@ export const getProductList = () => {
           const result=await axios(
               {
                   method:"GET",
-                  url:`https://mapi.sendo.vn/mob/product/cat/ao-so-mi-nam?p=1`
+                  url:`https://mapi.sendo.vn/mob/product/search?p={1}&q=banh-mi`
               }
-            
+              
           )
-          dispatch(getProductListSuccess(result.data.data))
+          console.log(result.data.data)
+          dispatch(getProductListSuccess(result.data))
     }
     catch(error)
     {
       dispatch(getProductListFail(error))
     }
     }
-        
-    
+}
+
+export const getProductList2 = (key,searchtext) => {
+    return async (dispatch)=>
+    {
+        dispatch(getProductListRequest());
+    try{
+          const result=await axios(
+              {
+                  method:"GET",
+                  url:`https://mapi.sendo.vn/mob/product/search?p=${key}&q=${searchtext}`
+              }
+              
+          )
+          console.log('====================================');
+          console.log(result);
+          console.log('====================================');
+          dispatch(getProductListSuccess(result.data))
+    }
+    catch(error)
+    {
+      dispatch(getProductListFail(error))
+    }
+    }
 }

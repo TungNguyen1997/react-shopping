@@ -1,5 +1,5 @@
 import { connect } from "react-redux"
-import {addToCartRedux} from './../action/CartItem.action'
+import {getProductId} from './../action/ProductItem.action'
 import ProductItem from "../components/ProductItem"
 
  
@@ -10,7 +10,7 @@ import ProductItem from "../components/ProductItem"
  })
  
  const mapDispatchToProps = {
-    addToCartRedux
+    getProductId
  }
 
 export default connect(mapStateToProps,mapDispatchToProps)(ProductItem)

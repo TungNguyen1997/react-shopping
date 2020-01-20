@@ -1,5 +1,5 @@
 
-import {GET_PRODUCTRELATED_SUCCESS,GET_PRODUCTRELATED_FAIL}  from '../action/Related.action'
+import {GET_PRODUCTRELATED_SUCCESS,GET_PRODUCTRELATED_FAIL,RESET_DATA}  from '../action/Related.action'
 
 var initialState={
     dataRelated:[]
@@ -22,7 +22,11 @@ var initialState={
      case GET_PRODUCTRELATED_FAIL:
         return {...state,
       
-        
+     }
+     case RESET_DATA:
+        return {...state,
+         dataRelated : []
+      
      }
       
     
