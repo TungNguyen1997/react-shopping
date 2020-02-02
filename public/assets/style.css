@@ -33,7 +33,7 @@
 	font-weight: normal;
 	font-style: normal;
 	font-size: 14px;
-	background-color:#ffe7e5;
+	background-color:white;
 
 
 }
@@ -4621,5 +4621,8 @@ ul.cat li a:hover {
 .shop-info-text{
 	color:#fe4536;
 	font-size: 25px;
+}
+.react-multi-carousel-item  {
+	text-align: center !important;
 }
 /*--- end of preloader ---*/

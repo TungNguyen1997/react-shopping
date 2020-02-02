@@ -85,7 +85,6 @@ export const getProductList = () => {
               }
               
           )
-          console.log(result.data.data)
           dispatch(getProductListSuccess(result.data))
     }
     catch(error)
@@ -107,9 +106,7 @@ export const getProductList2 = (key,searchtext) => {
               }
               
           )
-          console.log('====================================');
-          console.log(result);
-          console.log('====================================');
+          
           dispatch(getProductListSuccess(result.data))
     }
     catch(error)

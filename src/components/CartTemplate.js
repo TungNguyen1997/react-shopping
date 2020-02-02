@@ -57,7 +57,7 @@ export default class CartTemplate extends Component {
             <td className="product-quantity">
               <div className="cart-plus-minus"><input id="text data" type="text" value={data.quantityProduct}   /><div className="dec qtybutton" onClick={(item) => this.minusItem(key)}>-</div><div className="inc qtybutton" onClick={(item) => this.plusItem(key)}>+</div></div>
             </td>
-            <td className="product-subtotal"><span className="amount">{data.att1},{data.att2}</span></td>
+            <td className="product-subtotal"><span className="amount">{data.att1}  {data.att2? `,${data.att2}` : ''} </span></td>
             <td className="product-subtotal"><span className="amount">{formatPrice(data.quantityProduct * data.final_price)}đ</span></td>
             <td className="product-remove"><a href="#ds" onClick={() => this.deleteItem(key)}><i className="fa fa-times" /></a></td>
           </tr></React.Fragment>)

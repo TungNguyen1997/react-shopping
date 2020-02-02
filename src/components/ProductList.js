@@ -5,6 +5,8 @@ import OwlCarousel from 'react-owl-carousel';
 // import Pagination from "react-js-pagination";
 import Pagination from "react-pagination-library";
 import "react-pagination-library/build/css/index.css";
+import Carousel from "react-multi-carousel";
+import "react-multi-carousel/lib/styles.css";
 
 class ProductList extends Component {
   constructor(props) {
@@ -48,6 +50,25 @@ class ProductList extends Component {
   }
   
     render() {
+      const responsive = {
+        superLargeDesktop: {
+          // the naming can be any, depends on you.
+          breakpoint: { max: 4000, min: 3000 },
+          items: 10,
+        },
+        desktop: {
+          breakpoint: { max: 3000, min: 1024 },
+          items: 10,
+        },
+        tablet: {
+          breakpoint: { max: 1024, min: 464 },
+          items: 5,
+        },
+        mobile: {
+          breakpoint: { max: 464, min: 0 },
+          items: 3,
+        },
+      };
       
         return (
             <div className="col-xl-9 col-lg-8">
@@ -74,7 +95,7 @@ class ProductList extends Component {
   <div className="col-xl-12 col-lg-12 col-md-12 " >
   
     
-      <div className="product-hint mb-40 mt-10  ">
+        <Carousel responsive={responsive}>
         <span className ="product-hint-item-iphone product-hint-item"  onClick={(text) => this.searchHint('Iphone 11')}>
         <div>  <img className="product-hint-img"src="https://cf.shopee.vn/file/31234a27876fb89cd522d7e3db1ba5ca_tn" alt=""></img></div>
         <div className ="product-hint-item-text ">Iphone 11 </div>
@@ -119,11 +140,23 @@ class ProductList extends Component {
         <div  className ="product-hint-item-text" >Nội trợ </div>
         
         </span>
-     
+        <span className ="product-hint-item-cook product-hint-item" onClick={(text) => this.searchHint('Đồ chơi')}>
+        <div>  <img className="product-hint-img" src="        https://cf.shopee.vn/file/ce8f8abc726cafff671d0e5311caa684_tn" alt=""></img></div>
+        <div  className ="product-hint-item-text" >Đồ chơi </div>
+        
+        </span>
+        <span className ="product-hint-item-cook product-hint-item" onClick={(text) => this.searchHint('Chăm sóc nhà cửa')}>
+        <div>  <img className="product-hint-img" src="https://cf.shopee.vn/file/cd8e0d2e6c14c4904058ae20821d0763_tn" alt=""></img></div>
+        <div  className ="product-hint-item-text" >Chăm sóc nhà cửa </div>
+        
+        </span>
+        <span className ="product-hint-item-cook product-hint-item" onClick={(text) => this.searchHint('Voucher')}>
+        <div>  <img className="product-hint-img" src=" https://cf.shopee.vn/file/b0f78c3136d2d78d49af71dd1c3f38c1_tn" alt=""></img></div>
+        <div  className ="product-hint-item-text" >Voucher </div>
+        
+        </span>
+        </Carousel>
       
-
-      
-      </div>
     </div>
     <div className="col-xl-5 col-lg-6 col-md-6">
       <div className="product-showing mb-40">

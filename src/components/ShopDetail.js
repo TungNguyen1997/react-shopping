@@ -18,9 +18,12 @@ export default class ShopDetail extends Component {
     }
   }
   componentDidUpdate ( prevProps)  {
-    if(this.props.dataRedux.id !== prevProps.dataRedux.id){
-      window.scrollTo(0, 0);
+    if(prevProps.dataRedux !== null){
+      if(this.props.dataRedux.id !== prevProps.dataRedux.id){
+        window.scrollTo(0, 0);
+      }
     }
+    
     
 }
 
@@ -126,28 +129,29 @@ addItem =(product,quantity) => {
     else if(index === -1){
       const deepClone = update(product,{quantityProduct:{$set:quantity},att1:{$set:this.state.att1},att2:{$set:this.state.att2}});
       data.push(deepClone)
-
       this.setState({
         alert:false
       })
     }
     }
-   
     this.props.addToCartRedux(data)
   }
   else if (product.attribute.length === 1 && this.state.att1 ==='' && this.state.att2 ==='' ){
-    alert('dsdsds');
-    
+      this.setState({
+        alert: true
+      })    
     }
     else if(index2 === -1) {
       product.quantityProduct = quantity ;
       product.att1 = this.state.att1;
       product.att2 = this.state.att2;
       data.push(product);
+      this.setState({
+        alert : false
+      })
     }
-    else {
-    
 
+    else {
       if(index !== -1 ){
         data[index].quantityProduct = data[index].quantityProduct + quantity ;
       }
@@ -161,6 +165,7 @@ addItem =(product,quantity) => {
       }
     }
     this.props.addToCartRedux(data)
+  
     
   }
 
@@ -209,7 +214,7 @@ showAttr=  (product) => {
 
     render() {
     
-      console.log(this.props.productId)
+      
       const options = {
         items: 1,
         autoplay:true
@@ -230,12 +235,10 @@ showAttr=  (product) => {
     <div className="row">
       <div className="col-xl-12">
         <div className="breadcrumb-text text-center">
-      <h1>{product.shop_info?.shop_name}</h1>
+      <h1>{product.shop_info.shop_name}</h1>
           <ul className="breadcrumb-menu">
             <li><a href="index.html">home</a></li>
-            <li><Link to='/shop-info'>shop details</Link></li>
-
-          
+            <li><Link to='/shop-info'>shop details</Link></li>          
           </ul>
         </div>
       </div>
@@ -324,7 +327,7 @@ showAttr=  (product) => {
             <span><img src={product.campaign_list?.icon} alt=""></img></span>
 
             <div dangerouslySetInnerHTML={{ __html: product.campaign_list?.description }} />
-
+            
      
             <div className="product-action-details variant-item">
               <div className="product-details-action">

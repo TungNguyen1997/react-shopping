@@ -113,9 +113,6 @@ export const testData = (id) => {
                 return data.data
             });
             result.data.product_relateds = await Promise.all(dataRelated).then(arr => arr.filter(x => x.id));
-            console.log('====================================');
-            console.log();
-            console.log('====================================');
             dispatch(getShopDetailSuccess(result.data))
             }
         catch (error) {

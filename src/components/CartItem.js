@@ -28,7 +28,7 @@ import formatPrice from './convertMoney';
                       </h3>
                       <div className="cart-price">
                       <span className="">
-                            Thông số : {this.props.data.att1} , {this.props.data.att2} 
+                            Thông số : {this.props.data.att1}  {this.props.data.att2? `${this.props.data.att2}` : ''} 
                         </span>
                         
                         <span className="ml-2 float-right">

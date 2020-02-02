@@ -1,10 +1,10 @@
 
 import {GET_SHOPDETAIL_FAIL,GET_SHOPDETAIL_REQUEST,GET_SHOPDETAIL_SUCCESS, HIDE_LOADING}  from '../action/ShopDetail.action'
+import {RESET_DATA}  from '../action/Related.action'
 
 var initialState={
 loading:false,
-data:[],
-
+data: null,
 };
 
  const  ShopDetailReducer = (state=initialState,action)=>
@@ -35,6 +35,11 @@ data:[],
         error:action.error
          
       }
+      case RESET_DATA:
+        return {...state,
+         data : null
+      
+     }
       default:
          return state
    }
